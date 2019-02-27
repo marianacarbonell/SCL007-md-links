@@ -4,7 +4,7 @@
 
 // var fs = require('fs');
 
-// fs.readFile('./package.jik', function (err,data) {
+// fs.readFile('./package.json', function (err,data) {
 //   if (err){
 //   console.log('Saved!');
 // }
@@ -20,19 +20,20 @@ const markdownLinkExtractor = require('markdown-link-extractor');
 
 // leer el archivo 
 function readFolder (read){
+  return new Promise((res,reject) => {
   let markdown = fs.readFileSync(read).toString()
   const links = markdownLinkExtractor(markdown);
-  links.forEach(function (link) {
-    console.log(link);
-});
-};
+  console.log(links)
+//   links.forEach(function (link) {
+//     console.log(link);
+// });
+})
+}
 readFolder(read);
 
 
-
-
-
-const validateFolder = (path) =>{ // dice si sirve o no sirve(si es valido o no)
+// Validar archivo
+const validateFolder = (path) =>{ 
   if (fs.existsSync(path)){ //valida la ruta  
   if(fs.statSync(path).isFile()){ // verifica que sea un archivo
   
