@@ -21,7 +21,14 @@ const fetch = require("node-fetch");
 const pathAbsolute = path.resolve(read)
 
 function mdLinks(pathAbsolute) {
-  let promise = new Promise((res, reject) => {
+  const extention= path.extname(pathAbsolute);
+  if(fs.lstatSync(pathAbsolute).isDirectory()){
+    fs.readdirSync(pathAbsolute).forEach(file =>{
+      if(fs.lstatSync(pathAbsolute + "/" + file).isDirectory() || path.extname(pathAbsolute + "/" + file)===".md"){
+        mdLinks(pathAbsolute + "/" + file)
+      }
+    })
+  }else if(fs.lstatSync(pathAbsolute).isFile() && extention===".md"){
     let markdown = fs.readFileSync(pathAbsolute).toString()
     const links = markdownLinkExtractor(markdown);
     // console.log(links)
@@ -66,7 +73,7 @@ function mdLinks(pathAbsolute) {
     }).catch(error =>{
       console.log(error);
     })
-  })
+  }
 };
 mdLinks(pathAbsolute);
 
