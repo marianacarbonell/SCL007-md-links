@@ -16,11 +16,13 @@ const chalk = require("chalk");
 const fs = require('fs'); // Permite manejar los archivos
 const read = process.argv[2]
 const markdownLinkExtractor = require('markdown-link-extractor');
+const path = require("path");
 const fetch = require("node-fetch");
+const pathAbsolute = path.resolve(read)
 
-function mdLinks(read) {
+function mdLinks(pathAbsolute) {
   let promise = new Promise((res, reject) => {
-    let markdown = fs.readFileSync(read).toString()
+    let markdown = fs.readFileSync(pathAbsolute).toString()
     const links = markdownLinkExtractor(markdown);
     // console.log(links)
     //   links.forEach(function (link) {
@@ -36,12 +38,15 @@ function mdLinks(read) {
             url: res.url,
             statusLinks: res.status,
             text: text,
+            File: pathAbsolute,
             statusText: res.statusText
+        
           };
           return objectLinks;
         }else{
           const objectLinks = {
             url: res.url,
+            File: pathAbsolute,
             text: text,
         }
          return objectLinks;
@@ -58,10 +63,12 @@ function mdLinks(read) {
     }
     Promise.all(arrPromise).then(res =>{
     console.log(res)
+    }).catch(error =>{
+      console.log(error);
     })
   })
 };
-mdLinks(read);
+mdLinks(pathAbsolute);
 
 
 
