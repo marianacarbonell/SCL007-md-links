@@ -10,8 +10,6 @@
 // }
 // console.log(data.toString()); 
 // });
-//const figlet = require ("figlet"); // tipografía
-//const minimist = require ("minimist"); // ayuda a leer los parámetros (que da el usuario)
 
 
 const chalk = require("chalk");
@@ -20,24 +18,34 @@ const read = process.argv[2]
 const markdownLinkExtractor = require('markdown-link-extractor');
 const fetch = require("node-fetch");
 
-function readFolder(read) {
+function mdLinks(read) {
   let promise = new Promise((res, reject) => {
     let markdown = fs.readFileSync(read).toString()
     const links = markdownLinkExtractor(markdown);
-    console.log(links)
+    // console.log(links)
     //   links.forEach(function (link) {
     //     console.log(link);
     // });
     const arrPromise = [];
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
+      const text = links [i].text;
       const fetchLinks = fetch(link).then(res => {
-        const objectLinks = {
-          url: res.url,
-          statusLinks: res.status,
-          statusText: res.statusText
-        };
-        return objectLinks;
+        if(process.argv[3] ==="--validate"){
+          const objectLinks = {
+            url: res.url,
+            statusLinks: res.status,
+            text: text,
+            statusText: res.statusText
+          };
+          return objectLinks;
+        }else{
+          const objectLinks = {
+            url: res.url,
+            text: text,
+        }
+         return objectLinks;
+      }
       })
         .catch(error => {
           const objectLinks = {
@@ -53,24 +61,9 @@ function readFolder(read) {
     })
   })
 };
-readFolder(read);
+mdLinks(read);
 
 
 
 
 
-
-// Validar archivo
-// const validateFolder = (path) =>{ 
-//   if (fs.existsSync(path)){ //valida la ruta  
-//   if(fs.statSync(path).isFile()){ // verifica que sea un archivo
-
-//     const arrString = path.split(".");
-//     if(arrString[1] === "md"){
-//       return true;
-//       console.log(validateFolder)
-//     }
-//   }
-//   }
-// return false;
-// };
