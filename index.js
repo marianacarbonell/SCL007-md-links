@@ -17,6 +17,7 @@ const minimist = require ("minimist"); // ayuda a leer los parámetros (que da e
 const fs = require ('fs' ); // Permite manejar los archivos
 const read = process.argv[2]
 const markdownLinkExtractor = require('markdown-link-extractor');
+//const fetch = require("node-fetch");
 
 // leer el archivo 
 function readFolder (read){
@@ -27,22 +28,36 @@ function readFolder (read){
 //   links.forEach(function (link) {
 //     console.log(link);
 // });
+const fetchLinks = fetch(links).then(res => {
+  const objectLinks = {
+    url :res.url,
+    statusLinks: res.status,
+    statusText: res.statusText
+  };
+  return objectLinks;
+  console.log(res)
 })
-}
+.catch(error =>{
+  console.log(error)
+  }
+)
+})
+};
+
 readFolder(read);
 
 
 // Validar archivo
-const validateFolder = (path) =>{ 
-  if (fs.existsSync(path)){ //valida la ruta  
-  if(fs.statSync(path).isFile()){ // verifica que sea un archivo
+// const validateFolder = (path) =>{ 
+//   if (fs.existsSync(path)){ //valida la ruta  
+//   if(fs.statSync(path).isFile()){ // verifica que sea un archivo
   
-    const arrString = path.split(".");
-    if(arrString[1] === "md"){
-      return true;
-      console.log(validateFolder)
-    }
-  }
-  }
-return false;
-};
+//     const arrString = path.split(".");
+//     if(arrString[1] === "md"){
+//       return true;
+//       console.log(validateFolder)
+//     }
+//   }
+//   }
+// return false;
+// };
