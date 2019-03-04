@@ -11,3 +11,24 @@ Markdown Links, es una librería hecha en Javascript, que trabaja con Node.js de
 2.Extrae y lista todos los links que contenga el archivo,
 
 3.Agregando la opción --validate valida estado actual de los links encontrados.
+
+## Pre - requisitos
+
+1. Instalar Node.js en su computador
+
+2. Instalar markdown-link-extractor.
+
+## Uso e Instalación
+
+1.Para instalar la librería desde la terminal, situada en el directorio de tu proyecto,escribe el siguiente comando
+
+$npm install https://github.com/marianacarbonell/SCL007-md-links
+
+2. Seguidamente escriba el siguiente comando para obtener los links:
+
+$md-links < ruta de tu archivo>
+
+3. Para hacer uso de la opción "--validate" escribe lo siguiente:
+
+$md-links < ruta de tu archivo> --validate
+
