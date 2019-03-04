@@ -2,19 +2,8 @@
 //   // ...
 // };
 
-// var fs = require('fs');
-
-// fs.readFile('./package.json', function (err,data) {
-//   if (err){
-//   console.log('Saved!');
-// }
-// console.log(data.toString()); 
-// });
-
-
-const chalk = require("chalk");
-const fs = require('fs'); // Permite manejar los archivos
 const read = process.argv[2]
+const fs = require('fs'); // Permite manejar los archivos
 const markdownLinkExtractor = require('markdown-link-extractor');
 const path = require("path");
 const fetch = require("node-fetch");
@@ -31,10 +20,6 @@ function mdLinks(pathAbsolute) {
   }else if(fs.lstatSync(pathAbsolute).isFile() && extention===".md"){
     let markdown = fs.readFileSync(pathAbsolute).toString()
     const links = markdownLinkExtractor(markdown);
-    // console.log(links)
-    //   links.forEach(function (link) {
-    //     console.log(link);
-    // });
     const arrPromise = [];
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
@@ -56,7 +41,7 @@ function mdLinks(pathAbsolute) {
             File: pathAbsolute,
             text: text,
         }
-         return objectLinks;
+        return objectLinks;
       }
       })
         .catch(error => {
